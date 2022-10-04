@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aye-uL-Dtg">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="V4z-yT-oGx">
+            <objects>
+                <navigationController id="aye-uL-Dtg" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cUl-DS-4kK">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ltl-Z6-mmR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rYG-uV-J2s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-493" y="80"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MLKitDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MKB-8T-ENs">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="MKB-8T-ENs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9H4-Ms-DbC"/>
+                            <constraint firstItem="MKB-8T-ENs" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="NT7-DC-vcJ"/>
+                            <constraint firstItem="MKB-8T-ENs" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="YmG-M1-P5O"/>
+                            <constraint firstItem="MKB-8T-ENs" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="qe6-vw-R9i"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="1Ty-Rp-shE">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="switch.2" catalog="system" id="kxr-Um-QZ5">
+                                <connections>
+                                    <action selector="switchCamera:" destination="BYZ-38-t0r" id="0z1-3L-ffY"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="tray.circle" catalog="system" id="Dyh-GJ-Tne">
+                                <connections>
+                                    <action selector="captureVideo:" destination="BYZ-38-t0r" id="lDv-xh-82V"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="square.and.arrow.up" catalog="system" id="dIP-LV-Pif">
+                                <connections>
+                                    <segue destination="ZER-er-46j" kind="show" id="dzq-sf-LCM"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cameraView" destination="MKB-8T-ENs" id="vGs-jP-keB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="236.23188405797103" y="79.6875"/>
+        </scene>
+        <!--Player View Controller-->
+        <scene sceneID="MBI-EX-juk">
+            <objects>
+                <viewController id="ZER-er-46j" customClass="PlayerViewController" customModule="MLKitDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NZo-u8-YNW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qdh-Dj-1af">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dzN-yV-A1a"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="qdh-Dj-1af" firstAttribute="trailing" secondItem="dzN-yV-A1a" secondAttribute="trailing" id="Ek5-GJ-TSS"/>
+                            <constraint firstItem="qdh-Dj-1af" firstAttribute="top" secondItem="dzN-yV-A1a" secondAttribute="top" id="ahl-VM-s3r"/>
+                            <constraint firstItem="qdh-Dj-1af" firstAttribute="bottom" secondItem="dzN-yV-A1a" secondAttribute="bottom" id="r7E-SE-SaB"/>
+                            <constraint firstItem="qdh-Dj-1af" firstAttribute="leading" secondItem="dzN-yV-A1a" secondAttribute="leading" id="rrW-zN-ODc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="qWv-Xs-qnK">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="folder" catalog="system" id="iyd-P9-e99">
+                            <connections>
+                                <action selector="galleryAction:" destination="ZER-er-46j" id="Th0-RL-xav"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="video_vw" destination="qdh-Dj-1af" id="2MJ-g1-dEt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pxw-7J-R8a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="953.62318840579712" y="91.741071428571431"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="folder" catalog="system" width="128" height="97"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <image name="switch.2" catalog="system" width="128" height="109"/>
+        <image name="tray.circle" catalog="system" width="128" height="121"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
