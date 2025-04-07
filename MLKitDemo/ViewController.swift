@@ -12,6 +12,7 @@ import MLKit
 import Photos
 import AssetsLibrary
 
+// devleop branch change
 class ViewController: UIViewController {
     
     private var currentDetector: Detector = .poseAccurate
@@ -28,6 +29,10 @@ class ViewController: UIViewController {
     private var _filename = ""
     private var _time: Double = 0
     
+    var pointsHand = [CGPoint]()
+    
+    var sum = 0
+    
     private lazy var previewOverlayView: UIImageView = {
         precondition(isViewLoaded)
         let previewOverlayView = UIImageView(frame: .zero)
@@ -43,6 +48,14 @@ class ViewController: UIViewController {
         return annotationOverlayView
     }()
     
+    private lazy var handOverlayView: UIView = {
+        precondition(isViewLoaded)
+        let annotationOverlayView = UIView(frame: .zero)
+        annotationOverlayView.translatesAutoresizingMaskIntoConstraints = false
+        annotationOverlayView.clipsToBounds = true
+        return annotationOverlayView
+    }()
+    
     private var poseDetector: PoseDetector? = nil
     
     private var lastDetector: Detector?
@@ -51,13 +64,37 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        sum = 100
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        setUpPreviewOverlayView()
-        setUpAnnotationOverlayView()
+//        setUpPreviewOverlayView()
+//        setUpAnnotationOverlayView()
         setUpCaptureSessionOutput()
         setUpCaptureSessionInput()
         
+//        cameraView.addSubview(handOverlayView)
+//        NSLayoutConstraint.activate([
+//            handOverlayView.topAnchor.constraint(equalTo: cameraView.topAnchor),
+//            handOverlayView.leadingAnchor.constraint(equalTo: cameraView.leadingAnchor),
+//            handOverlayView.trailingAnchor.constraint(equalTo: cameraView.trailingAnchor),
+//            handOverlayView.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor),
+//        ])
+        
+        pointsHand.append(CGPoint(x: 0, y: 0))
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+//        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        navigationController?.navigationBar.backgroundColor = UIColor.green
+//        navigationController?.navigationBar.shadowImage = UIImage()
+//        navigationController?.navigationBar.isTranslucent = true
+//        navigationController?.navigationBar.tintColor = .red
+        
+//        let statusBar = UIView(frame: UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.zero)
+//        statusBar.backgroundColor = UIColor.green
+//        statusBar.tag = 100
+//        view.addSubview(statusBar)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,6 +107,9 @@ class ViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         stopSession()
+        
+//        let options = AccuratePoseDetectorOptions()
+//        self.poseDetector = PoseDetector.poseDetector(options: options)
     }
     
     override func viewDidLayoutSubviews() {
@@ -77,7 +117,7 @@ class ViewController: UIViewController {
         
         previewLayer.frame = cameraView.bounds
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        //        cameraView.layer.addSublayer(previewLayer)
+        cameraView.layer.addSublayer(previewLayer)
         
         print("viewDidLayoutSubviews")
     }
@@ -175,6 +215,18 @@ class ViewController: UIViewController {
                 print("Failed to get capture device for camera position: \(cameraPosition)")
                 return
             }
+            
+//            do {
+//                try device.lockForConfiguration()
+//
+//                device.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: 120)
+//                device.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: 120)
+//
+//                device.unlockForConfiguration()
+//            } catch _ {
+//                print("failed locking device")
+//            }
+            
             do {
                 strongSelf.captureSession.beginConfiguration()
                 let currentInputs = strongSelf.captureSession.inputs
@@ -231,6 +283,8 @@ class ViewController: UIViewController {
     
     private func detectPose(in image: MLImage, width: CGFloat, height: CGFloat) {
         if let poseDetector = self.poseDetector {
+            image.orientation = .left
+            print("MLimgae: \(image.orientation)")
             var poses: [Pose] = []
             var detectionError: Error?
             do {
@@ -266,6 +320,19 @@ class ViewController: UIViewController {
                                 fromVisionPoint: position, width: width, height: height)
                         }
                     )
+//                    let handOverlayView = UIUtilities.createMoveHandOverlayView(
+//                        fromPoint: strongSelf.pointsHand.last,
+//                        forPose: pose,
+//                        inViewWithBounds: self.handOverlayView.bounds,
+//                        lineWidth: Constant.lineWidthBold,
+//                        dotRadius: Constant.smallDotRadius,
+//                        positionTransformationClosure: { (position) -> CGPoint in
+//                            let point = strongSelf.normalizedPoint(
+//                                fromVisionPoint: position, width: width, height: height)
+//                            self.pointsHand.append(point)
+//                            return point
+//                        })
+//                    strongSelf.handOverlayView.addSubview(handOverlayView)
                     strongSelf.annotationOverlayView.addSubview(poseOverlayView)
                 }
             }
@@ -289,7 +356,7 @@ class ViewController: UIViewController {
     ) -> CGPoint {
         let cgPoint = CGPoint(x: point.x, y: point.y)
         var normalizedPoint = CGPoint(x: cgPoint.x / width, y: cgPoint.y / height)
-        normalizedPoint = previewLayer.layerPointConverted(fromCaptureDevicePoint: normalizedPoint)
+//        normalizedPoint = previewLayer.layerPointConverted(fromCaptureDevicePoint: normalizedPoint)
         return normalizedPoint
     }
     
@@ -345,32 +412,36 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             print("Failed to get image buffer from sample buffer.")
             return
         }
+        
+        print("sample at time \(CMSampleBufferGetPresentationTimeStamp(sampleBuffer))") 
         // Evaluate `self.currentDetector` once to ensure consistency throughout this method since it
         // can be concurrently modified from the main thread.
         let activeDetector = self.currentDetector
         resetManagedLifecycleDetectors(activeDetector: activeDetector)
         
         lastFrame = sampleBuffer
-        let visionImage = VisionImage(buffer: sampleBuffer)
-        let orientation = UIUtilities.imageOrientation(
-            fromDevicePosition: isUsingFrontCamera ? .front : .back
-        )
-        visionImage.orientation = orientation
+//        let visionImage = VisionImage(buffer: sampleBuffer)
+//        let orientation = UIUtilities.imageOrientation(
+//            fromDevicePosition: isUsingFrontCamera ? .front : .back
+//        )
+//        visionImage.orientation = orientation
         
         guard let inputImage = MLImage(sampleBuffer: sampleBuffer) else {
             print("Failed to create MLImage from sample buffer.")
             return
         }
-        inputImage.orientation = orientation
+//        inputImage.orientation = orientation
         
         let imageWidth = CGFloat(CVPixelBufferGetWidth(imageBuffer))
         let imageHeight = CGFloat(CVPixelBufferGetHeight(imageBuffer))
         
-        switch activeDetector {
-        case .pose, .poseAccurate:
-            detectPose(in: inputImage, width: imageWidth, height: imageHeight)
-            break
-        }
+        detectPose(in: inputImage, width: imageWidth, height: imageHeight)
+        
+//        switch activeDetector {
+//        case .pose, .poseAccurate:
+//            detectPose(in: inputImage, width: imageWidth, height: imageHeight)
+//            break
+//        }
         
         // MARK: Save Video
         let timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer).seconds
@@ -444,6 +515,7 @@ private enum Constant {
     static let labelConfidenceThreshold = 0.75
     static let smallDotRadius: CGFloat = 4.0
     static let lineWidth: CGFloat = 3.0
+    static let lineWidthBold: CGFloat = 3.0
     static let originalScale: CGFloat = 1.0
     static let padding: CGFloat = 10.0
     static let resultsLabelHeight: CGFloat = 200.0
