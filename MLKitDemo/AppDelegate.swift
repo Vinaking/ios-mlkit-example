@@ -9,10 +9,24 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    var deviceOrientation = UIInterfaceOrientationMask.all
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+//        UINavigationBar.appearance().tintColor = UIColor.white
+//        UINavigationBar.appearance().backgroundColor = UIColor(red: 51/255.0, green: 204/255.0, blue: 51/255.0, alpha: 1.0)
+//        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+//        UINavigationBar.appearance().isTranslucent = true
+        
+        Thread.sleep(forTimeInterval: 2.0)
+        
         return true
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return deviceOrientation
     }
 
     // MARK: UISceneSession Lifecycle

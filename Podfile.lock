@@ -63,17 +63,19 @@ PODS:
   - MLKitXenoCommon (1.0.0-beta10):
     - MLKitCommon (~> 8.0)
     - MLKitVision (~> 4.2)
+  - mobile-ffmpeg-full (4.4)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
-  - Protobuf (3.21.5)
+  - Protobuf (3.21.8)
 
 DEPENDENCIES:
   - GoogleMLKit/PoseDetection (= 3.2.0)
   - GoogleMLKit/PoseDetectionAccurate (= 3.2.0)
+  - mobile-ffmpeg-full (~> 4.4)
 
 SPEC REPOS:
   trunk:
@@ -90,6 +92,7 @@ SPEC REPOS:
     - MLKitPoseDetectionCommon
     - MLKitVision
     - MLKitXenoCommon
+    - mobile-ffmpeg-full
     - nanopb
     - PromisesObjC
     - Protobuf
@@ -108,10 +111,11 @@ SPEC CHECKSUMS:
   MLKitPoseDetectionCommon: 440b2b41504319ff9855cd941f1e4606af069e8b
   MLKitVision: 96c96571190b7f63eddf4a12068ce8a8689e0d2c
   MLKitXenoCommon: 39b7097db51f4716a2a0ff4e4459e002499f5523
+  mobile-ffmpeg-full: 505c583d91ac1c4fb2b015787e69d83f83fb8f29
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
-  Protobuf: 7504b04fffcf6662ad629694db8231f5e744327f
+  Protobuf: 0a11f3000cd10ffa17611bf96e66a66b25c956e4
 
-PODFILE CHECKSUM: 072286bdd56520dbaabd05e503cb3ffcffa06aab
+PODFILE CHECKSUM: ac1f5edb51b7c5b79215718d960947b2090d5262
 
 COCOAPODS: 1.11.3
